@@ -15,11 +15,11 @@ public class GroundCheck : MonoBehaviour
     {
         if (other.tag == "Ground")
         {
-            player_script.p_grounded = true;
+            player_script.grounded = true;
 
-            if (player_script.p_collected_Jump)
+            if (player_script.collected_Jump)
             {
-                player_script.p_extra_jump = true;
+                player_script.extra_jump = true;
             }
         }
     }
@@ -28,7 +28,7 @@ public class GroundCheck : MonoBehaviour
     {
         if (other.tag == "Ground")
         {
-            player_script.p_grounded = false;
+            player_script.grounded = false;
         }
     }
 }
