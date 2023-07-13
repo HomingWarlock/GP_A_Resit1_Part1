@@ -16,6 +16,8 @@ public class CollectableAction : MonoBehaviour
     private IEnumerator jb_IEnum;
     private IEnumerator sb_IEnum;
 
+    private float timer_value;
+
     void Start()
     {
         player_script = GameObject.Find("Player").GetComponent<PlayerControl>();
@@ -29,6 +31,15 @@ public class CollectableAction : MonoBehaviour
     void Update()
     {
         transform.Rotate(0, rotate_speed * Time.deltaTime, 0);
+
+        if (!player_script.cutscene_mode)
+        {
+            timer_value = Time.deltaTime;
+        }
+        else if (player_script.cutscene_mode)
+        {
+            timer_value = 0;
+        }
     }
 
 
@@ -109,23 +120,29 @@ public class CollectableAction : MonoBehaviour
 
     private IEnumerator SpeedBoostTimer()
     {
-        for (; sb_timer > 0; sb_timer -= Time.deltaTime)
+        if (!player_script.cutscene_mode)
         {
-            yield return null;
+            for (; sb_timer > 0; sb_timer -= timer_value)
+            {
+                yield return null;
+            }
+            player_script.collected_Speed = false;
+            player_script.speed_effect.SetActive(false);
         }
-        player_script.collected_Speed = false;
-        player_script.speed_effect.SetActive(false);
     }
 
     private IEnumerator JumpBoostTimer()
     {
-        for (; jb_timer > 0; jb_timer -= Time.deltaTime)
+        if (!player_script.cutscene_mode)
         {
-            yield return null;
+            for (; jb_timer > 0; jb_timer -= timer_value)
+            {
+                yield return null;
+            }
+            player_script.collected_Jump = false;
+            player_script.jump_effect.SetActive(false);
+            player_script.extra_jump = false;
         }
-        player_script.collected_Jump = false;
-        player_script.jump_effect.SetActive(false);
-        player_script.extra_jump = false;
     }
 
     private IEnumerator Respawn_Delay()
