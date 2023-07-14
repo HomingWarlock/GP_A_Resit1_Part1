@@ -43,9 +43,9 @@ public class CollectableAction : MonoBehaviour
     }
 
 
-    void OnTriggerEnter(Collider collision)
+    void OnTriggerEnter(Collider col)
     {
-        if (collision.gameObject.name == "Player")
+        if (col.gameObject.name == "Player")
         {
             if (this.gameObject.name == "Yellow Coin")
             {

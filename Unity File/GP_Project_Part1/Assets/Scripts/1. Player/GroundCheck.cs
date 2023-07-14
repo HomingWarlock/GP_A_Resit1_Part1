@@ -11,9 +11,9 @@ public class GroundCheck : MonoBehaviour
         player_script = GetComponentInParent<PlayerControl>();
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider col)
     {
-        if (other.tag == "Ground")
+        if (col.tag == "Ground")
         {
             player_script.grounded = true;
 
@@ -24,9 +24,9 @@ public class GroundCheck : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider col)
     {
-        if (other.tag == "Ground")
+        if (col.tag == "Ground")
         {
             player_script.grounded = false;
         }

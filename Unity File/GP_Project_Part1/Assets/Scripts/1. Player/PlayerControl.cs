@@ -54,7 +54,7 @@ public class PlayerControl : MonoBehaviour
         jump_input_check = false;
         attack_input_check = false;
         single_attack_check = false;
-        cam_point = GameObject.Find("CamPoint");
+        cam_point = GameObject.Find("Player_CamPivot");
 
         coins = 0;
         boosted_speed = 0;
@@ -83,12 +83,17 @@ public class PlayerControl : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
 
+        if (Input.GetKey(KeyCode.B))
+        {
+            Debug.Break();
+        }
+
         if (!cutscene_mode)
         {
             back_dir = Input.GetAxisRaw("Vertical") * cam_point.transform.forward;
             right_dir = Input.GetAxisRaw("Horizontal") * cam_point.transform.right;
             true_dir = back_dir + right_dir;
-            last_dir = cam_point.transform.forward + cam_point.transform.right;
+            last_dir = cam_point.transform.forward;
 
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
             {
@@ -176,7 +181,7 @@ public class PlayerControl : MonoBehaviour
                 }
             }
 
-            if (Input.GetKey(KeyCode.Mouse0) && !attack_input_check)
+            if (Input.GetKey(KeyCode.Mouse0) && !attack_input_check && grounded)
             {
                 attack_input_check = true;
                 StartCoroutine(AttackInputDelay());
