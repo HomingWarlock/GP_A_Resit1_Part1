@@ -16,10 +16,13 @@ public class GroundCheck : MonoBehaviour
         if (col.tag == "Ground")
         {
             player_script.grounded = true;
+            player_script.is_jumping = false;
+            player_script.bouncy_value = 0;
 
             if (player_script.collected_Jump)
             {
                 player_script.extra_jump = true;
+                player_script.is_double_jumping = false;
             }
         }
     }

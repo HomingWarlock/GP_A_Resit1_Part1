@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    private Rigidbody rb;
+    public Rigidbody rb;
     private Animator anim;
 
     private float move_speed;
     private float run_speed;
-    private float jump_speed;
+    public float jump_speed;
     private float X_value;
     private float Z_value;
     private bool is_walking;
     private bool is_running;
-    private bool is_jumping;
-    private bool is_double_jumping;
+    public bool is_jumping;
+    public bool is_double_jumping;
     public bool grounded;
     private bool jump_input_check;
     public bool attack_input_check;
@@ -36,12 +36,15 @@ public class PlayerControl : MonoBehaviour
 
     public bool cutscene_mode;
 
+    public float bouncy_value;
+    public bool on_ice;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         anim = gameObject.transform.GetChild(0).GetComponent<Animator>();
 
-        move_speed = 500;
+        move_speed = 300;
         run_speed = 0;
         jump_speed = 10;
         X_value = 0;
@@ -67,6 +70,9 @@ public class PlayerControl : MonoBehaviour
         jump_effect.SetActive(false);
 
         cutscene_mode = false;
+
+        bouncy_value = 0;
+        on_ice = false;
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -133,7 +139,7 @@ public class PlayerControl : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.JoystickButton3))
             {
                 is_running = true;
-                run_speed = 500;
+                run_speed = 300;
             }
             else if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift) && !Input.GetKey(KeyCode.JoystickButton3))
             {
@@ -143,7 +149,7 @@ public class PlayerControl : MonoBehaviour
 
             if (collected_Speed)
             {
-                boosted_speed = 500;
+                boosted_speed = 700;
             }
             else if (!collected_Speed)
             {
@@ -225,9 +231,13 @@ public class PlayerControl : MonoBehaviour
             {
                 rb.velocity = new Vector3(true_dir.x * (move_speed + run_speed + boosted_speed) * Time.deltaTime, rb.velocity.y, true_dir.z * (move_speed + run_speed + boosted_speed) * Time.deltaTime);
             }
-            else if (!is_walking)
+            else if (!is_walking && !on_ice)
             {
                 rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            }
+            else if (!is_walking && on_ice)
+            {
+                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
             }
         }
         else if (cutscene_mode)
