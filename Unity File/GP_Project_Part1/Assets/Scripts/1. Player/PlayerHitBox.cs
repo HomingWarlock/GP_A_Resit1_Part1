@@ -22,8 +22,6 @@ public class PlayerHitBox : MonoBehaviour
         button_rend = switch_button.GetComponent<MeshRenderer>();
         button_rend.material.color = Color.red;
 
-
-
         door = GameObject.Find("Door");
     }
 
@@ -37,18 +35,24 @@ public class PlayerHitBox : MonoBehaviour
 
     void OnTriggerStay(Collider col)
     {
-        if (player_script.attack_input_check)
+        if (player_script.attack_start_check)
         {
             if (!player_script.single_attack_check)
             {
-                player_script.single_attack_check = true;
-
-                if (col.gameObject.name == "DoorSwitch")
+                if (col.gameObject.name == "DoorSwitch" && door != null)
                 {
                     button_rend.material.color = Color.green;
                     door.GetComponent<DoorAction>().door_open = true;
                     Destroy(door.GetComponent<DoorAction>().box_col, 2);
                     Destroy(door, 2);
+                    player_script.single_attack_check = true;
+                }
+
+                if (col.tag == "Enemy")
+                {
+
+                    col.GetComponent<EnemyAction>().TakeDamage(1);
+                    player_script.single_attack_check = true;
                 }
             }
         }

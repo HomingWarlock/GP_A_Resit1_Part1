@@ -16,9 +16,11 @@ public class PlayerControl : MonoBehaviour
     private bool is_running;
     public bool is_jumping;
     public bool is_double_jumping;
+    public bool is_attacking;
     public bool grounded;
     private bool jump_input_check;
     public bool attack_input_check;
+    public bool attack_start_check;
     public bool single_attack_check;
     private Vector3 back_dir;
     private Vector3 right_dir;
@@ -39,6 +41,11 @@ public class PlayerControl : MonoBehaviour
     public float bouncy_value;
     public bool on_ice;
 
+    public int enemy_zone_no;
+    private float max_player_health;
+    [SerializeField] private float player_health;
+    [SerializeField] private Vector3 spawn_pos;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -53,9 +60,11 @@ public class PlayerControl : MonoBehaviour
         is_running = false;
         is_jumping = false;
         is_double_jumping = false;
+        is_attacking = false;
         grounded = false;
         jump_input_check = false;
         attack_input_check = false;
+        attack_start_check = false;
         single_attack_check = false;
         cam_point = GameObject.Find("Player_CamPivot");
 
@@ -74,11 +83,21 @@ public class PlayerControl : MonoBehaviour
         bouncy_value = 0;
         on_ice = false;
 
+        enemy_zone_no = 0;
+        max_player_health = 100;
+        player_health = max_player_health;
+        spawn_pos = transform.position;
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
+        if (transform.position.y < -10)
+        {
+            transform.position = spawn_pos;
+        }
+
         if (Input.GetKey(KeyCode.Escape))
         {
             Cursor.lockState = CursorLockMode.None;
@@ -187,10 +206,11 @@ public class PlayerControl : MonoBehaviour
                 }
             }
 
-            if (Input.GetKey(KeyCode.Mouse0) && !attack_input_check && grounded)
+            if (Input.GetKey(KeyCode.Mouse0) && !attack_input_check && grounded && !is_attacking)
             {
                 attack_input_check = true;
                 StartCoroutine(AttackInputDelay());
+                is_attacking = true;
             }
 
             anim.SetFloat("XValue", X_value);
@@ -199,6 +219,7 @@ public class PlayerControl : MonoBehaviour
             anim.SetBool("isJumping", is_jumping);
             anim.SetBool("isGrounded", grounded);
             anim.SetBool("isDoubleJumping", is_double_jumping);
+            anim.SetBool("isAttacking", is_attacking);
         }
         else if (cutscene_mode)
         {
@@ -208,6 +229,7 @@ public class PlayerControl : MonoBehaviour
             is_jumping = false;
             grounded = true;
             is_double_jumping = false;
+            is_attacking = false;
 
             if (collected_Jump)
             {
@@ -220,6 +242,7 @@ public class PlayerControl : MonoBehaviour
             anim.SetBool("isJumping", is_jumping);
             anim.SetBool("isGrounded", grounded);
             anim.SetBool("isDoubleJumping", is_double_jumping);
+            anim.SetBool("isAttacking", is_attacking);
         }
     }
 
@@ -256,6 +279,15 @@ public class PlayerControl : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         attack_input_check = false;
-        single_attack_check = false;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        player_health -= damage;
+
+        if (player_health <= 0)
+        {
+            transform.position = spawn_pos;
+        }
     }
 }
