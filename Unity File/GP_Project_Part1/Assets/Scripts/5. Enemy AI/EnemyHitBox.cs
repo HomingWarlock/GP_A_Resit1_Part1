@@ -15,12 +15,16 @@ public class EnemyHitBox : MonoBehaviour
     {
         if (col.gameObject.name == "Player")
         {
-            if (enemy_script.single_attack)
+            if (!col.GetComponent<PlayerControl>().is_dying)
             {
-                if (!enemy_script.single_damage_check)
+                if (enemy_script.single_attack)
                 {
-                    enemy_script.single_damage_check = true;
-                    col.GetComponent<PlayerControl>().TakeDamage(enemy_script.attack_damage);
+                    if (!enemy_script.attack_damage_check)
+                    {
+                        enemy_script.attack_damage_check = true;
+                        col.GetComponent<PlayerControl>().TakeDamage(enemy_script.attack_damage);
+                        col.GetComponent<PlayerControl>().is_hurting = true;
+                    }
                 }
             }
         }

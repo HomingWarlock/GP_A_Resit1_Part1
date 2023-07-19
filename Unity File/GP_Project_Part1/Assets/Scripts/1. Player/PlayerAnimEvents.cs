@@ -23,7 +23,27 @@ public class PlayerAnimEvents : MonoBehaviour
 
     public void OnAttack_AnimationEnd()
     {
-        player_script.single_attack_check = false;
         player_script.is_attacking = false;
+    }
+
+    public void OnHurt_AnimationEnd()
+    {
+        player_script.is_hurting = false;
+    }
+
+    public void OnDead_AnimationEnd()
+    {
+        if (player_script.is_dying)
+        {
+            player_script.is_dying = false;
+            player_script.respawning = true;
+        }
+    }
+
+    public void OnRespawn_AnimationEnd()
+    {
+        player_script.is_hurting = false;
+        player_script.is_dying = false;
+        player_script.is_respawned = false;
     }
 }

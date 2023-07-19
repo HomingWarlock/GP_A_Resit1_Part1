@@ -50,6 +50,7 @@ public class CollectableAction : MonoBehaviour
             if (this.gameObject.name == "Yellow Coin")
             {
                 player_script.coins += 1;
+                player_script.coin_value.text = player_script.coins.ToString();
                 rend.enabled = false;
                 box_col.enabled = false;
                 StartCoroutine(Respawn_Delay());
@@ -58,6 +59,7 @@ public class CollectableAction : MonoBehaviour
             if (this.gameObject.name == "Red Coin")
             {
                 player_script.coins += 5;
+                player_script.coin_value.text = player_script.coins.ToString();
                 rend.enabled = false;
                 box_col.enabled = false;
                 StartCoroutine(Respawn_Delay());
@@ -66,6 +68,7 @@ public class CollectableAction : MonoBehaviour
             if (this.gameObject.name == "Blue Coin")
             {
                 player_script.coins += 10;
+                player_script.coin_value.text = player_script.coins.ToString();
                 rend.enabled = false;
                 box_col.enabled = false;
                 StartCoroutine(Respawn_Delay());
@@ -74,6 +77,7 @@ public class CollectableAction : MonoBehaviour
             if (this.gameObject.name == "Diamond")
             {
                 player_script.coins += 50;
+                player_script.coin_value.text = player_script.coins.ToString();
                 rend.enabled = false;
                 box_col.enabled = false;
                 StartCoroutine(Respawn_Delay());

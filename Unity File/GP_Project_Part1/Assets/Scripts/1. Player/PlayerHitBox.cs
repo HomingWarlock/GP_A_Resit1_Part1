@@ -37,23 +37,19 @@ public class PlayerHitBox : MonoBehaviour
     {
         if (player_script.attack_start_check)
         {
-            if (!player_script.single_attack_check)
+            if (col.gameObject.name == "DoorSwitch" && door != null)
             {
-                if (col.gameObject.name == "DoorSwitch" && door != null)
-                {
-                    button_rend.material.color = Color.green;
-                    door.GetComponent<DoorAction>().door_open = true;
-                    Destroy(door.GetComponent<DoorAction>().box_col, 2);
-                    Destroy(door, 2);
-                    player_script.single_attack_check = true;
-                }
+                button_rend.material.color = Color.green;
+                door.GetComponent<DoorAction>().door_open = true;
+                Destroy(door.GetComponent<DoorAction>().box_col, 2);
+                Destroy(door, 2);
+            }
 
-                if (col.tag == "Enemy")
-                {
-
-                    col.GetComponent<EnemyAction>().TakeDamage(1);
-                    player_script.single_attack_check = true;
-                }
+            if (col.tag == "Enemy" && !col.GetComponent<EnemyAction>().single_damaged_check && !col.GetComponent<EnemyAction>().is_new_spawn)
+            {
+                col.GetComponent<EnemyAction>().TakeDamage(1);
+                col.GetComponent<EnemyAction>().single_damaged_check = true;
+                StartCoroutine(col.GetComponent<EnemyAction>().SingleDamagedDelay());
             }
         }
     }

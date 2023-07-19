@@ -19,7 +19,7 @@ public class CamOrbit : MonoBehaviour
     {
         if (!player_script.cutscene_mode) 
         {
-            transform.RotateAround(player_object.transform.position, Vector3.up, Input.GetAxisRaw("Mouse X") * 3000 * Time.deltaTime);
+            transform.RotateAround(player_object.transform.position, Vector3.up, Input.GetAxisRaw("Mouse X") * 1000 * Time.deltaTime);
             player_model.transform.forward = new Vector3(player_script.last_dir.x, 0, player_script.last_dir.z);
         }
     }
