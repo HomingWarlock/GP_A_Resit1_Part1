@@ -7,6 +7,8 @@ public class PlayerHitBox : MonoBehaviour
     public GameObject player_object;
     public PlayerControl player_script;
 
+    public EnemyAction enemy_script;
+
     private GameObject switch_button;
     private MeshRenderer button_rend;
 
@@ -29,7 +31,7 @@ public class PlayerHitBox : MonoBehaviour
     {
         if (!player_script.cutscene_mode)
         {
-            transform.RotateAround(player_object.transform.position, Vector3.up, Input.GetAxisRaw("Mouse X") * 3000 * Time.deltaTime);
+            transform.RotateAround(player_object.transform.position, Vector3.up, Input.GetAxisRaw("Mouse X") * 1000 * Time.deltaTime);
         }
     }
 
@@ -45,11 +47,18 @@ public class PlayerHitBox : MonoBehaviour
                 Destroy(door, 2);
             }
 
-            if (col.tag == "Enemy" && !col.GetComponent<EnemyAction>().single_damaged_check && !col.GetComponent<EnemyAction>().is_new_spawn)
+            if (col.tag == "Enemy")
             {
-                col.GetComponent<EnemyAction>().TakeDamage(1);
-                col.GetComponent<EnemyAction>().single_damaged_check = true;
-                StartCoroutine(col.GetComponent<EnemyAction>().SingleDamagedDelay());
+                enemy_script = col.GetComponent<EnemyAction>();
+                bool singledamagedcheck_result = enemy_script.GetSingleDamagedCheck(false);
+                bool spawninfo_result = enemy_script.GetSpawnInfo(false);
+
+                if (!singledamagedcheck_result && !spawninfo_result)
+                {
+                    enemy_script.SetSingleDamagedCheck(true);
+                    StartCoroutine(enemy_script.SingleDamagedDelay());
+                    enemy_script.TakeDamage(1);
+                }
             }
         }
     }

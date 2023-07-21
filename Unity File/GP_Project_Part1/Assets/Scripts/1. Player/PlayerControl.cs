@@ -122,11 +122,6 @@ public class PlayerControl : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        if (Input.GetKey(KeyCode.B))
-        {
-            Debug.Break();
-        }
-
         if (Input.GetKey(KeyCode.Escape))
         {
             Application.Quit();
@@ -238,7 +233,7 @@ public class PlayerControl : MonoBehaviour
                     }
                 }
 
-                if (Input.GetKey(KeyCode.Mouse0) && !attack_input_check && grounded && !is_attacking)
+                if (Input.GetKey(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.JoystickButton2) && !attack_input_check && grounded && !is_attacking)
                 {
                     attack_input_check = true;
                     StartCoroutine(AttackInputDelay());

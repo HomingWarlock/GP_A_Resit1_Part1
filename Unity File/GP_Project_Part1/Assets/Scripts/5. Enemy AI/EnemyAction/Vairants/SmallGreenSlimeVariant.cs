@@ -13,6 +13,7 @@ public class SmallGreenSlimeVariant : EnemyAction
         healthbar_health.fillAmount = health / max_health;
         healthbar_damage.fillAmount = healthbar_health.fillAmount;
         attack_damage = 10;
-        action_wait_time = 0.5f;
+        start_action_wait_time = 1;
+        action_wait_time = start_action_wait_time;
     }
 }

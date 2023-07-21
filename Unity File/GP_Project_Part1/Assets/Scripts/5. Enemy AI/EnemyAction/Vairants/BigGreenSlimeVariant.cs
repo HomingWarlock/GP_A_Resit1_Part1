@@ -15,7 +15,8 @@ public class BigGreenSlimeVariant : EnemyAction
         healthbar_health.fillAmount = health / max_health;
         healthbar_damage.fillAmount = healthbar_health.fillAmount;
         attack_damage = 50;
-        action_wait_time = 2;
+        start_action_wait_time = 2;
+        action_wait_time = start_action_wait_time;
 
         slime_spawn1 = transform.Find("Spawn_1");
         slime_spawn2 = transform.Find("Spawn_2");
@@ -34,14 +35,7 @@ public class BigGreenSlimeVariant : EnemyAction
             GameObject medium_slime2 = Instantiate(medium_slime_object, new Vector3(slime_spawn2.position.x, slime_spawn2.position.y, slime_spawn2.position.z), Quaternion.identity) as GameObject;
             medium_slime2.transform.name = "Medium_GreenSlime";
 
-            Destroy(this.gameObject);
+            is_dying = true;
         }
-    }
-
-    protected IEnumerator SingleAttackDelay(float actionWaitTime)
-    {
-        yield return new WaitForSeconds(actionWaitTime);
-        single_attack = false;
-        attack_damage_check = false;
     }
 }

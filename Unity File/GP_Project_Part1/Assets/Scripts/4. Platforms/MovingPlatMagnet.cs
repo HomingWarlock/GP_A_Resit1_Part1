@@ -8,7 +8,7 @@ public class MovingPlatMagnet : MonoBehaviour
 
     void Start()
     {
-        MovingPlat = GameObject.Find("Ground_PlatformMoving1");
+        MovingPlat = GameObject.Find("Ground_Platform_Moving1");
     }
 
     void OnTriggerStay(Collider col)

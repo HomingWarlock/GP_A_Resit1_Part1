@@ -6,14 +6,14 @@ public class MovingPlatAction : MonoBehaviour
 {
     private Transform PointA;
     private Transform PointB;
-    [SerializeField] private string Goal;
+    private string Goal;
 
     private float pos_lerp;
 
     void Start()
     {
-        PointA = GameObject.Find("PlatformMoving1_PointA").transform;
-        PointB = GameObject.Find("PlatformMoving1_PointB").transform;
+        PointA = GameObject.Find("Platform_Moving1_PointA").transform;
+        PointB = GameObject.Find("Platform_Moving1_PointB").transform;
         Goal = "PlatformMoving1_PointB";
 
         pos_lerp = 0;

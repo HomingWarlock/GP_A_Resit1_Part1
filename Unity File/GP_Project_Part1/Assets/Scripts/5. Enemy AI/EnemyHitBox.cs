@@ -17,14 +17,15 @@ public class EnemyHitBox : MonoBehaviour
         {
             if (!col.GetComponent<PlayerControl>().is_dying)
             {
-                if (enemy_script.single_attack)
+                bool singleattack = enemy_script.GetSingleAttack(false);
+                bool attackdamagecheck = enemy_script.GetAttackDamageCheck(false);
+                float attackdamage = enemy_script.GetAttackDamage(0);
+
+                if (attackdamagecheck)
                 {
-                    if (!enemy_script.attack_damage_check)
-                    {
-                        enemy_script.attack_damage_check = true;
-                        col.GetComponent<PlayerControl>().TakeDamage(enemy_script.attack_damage);
-                        col.GetComponent<PlayerControl>().is_hurting = true;
-                    }
+                    enemy_script.SetAttackDamageCheck(false);
+                    col.GetComponent<PlayerControl>().TakeDamage(attackdamage);
+                    col.GetComponent<PlayerControl>().is_hurting = true;
                 }
             }
         }
